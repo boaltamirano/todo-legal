@@ -3,7 +3,7 @@ from fastapi import HTTPException
 from models.user_model import UserModel
 
 def validate_user_data(func):
-    def wrapper(user: UserModel):
+    def create_user(user: UserModel):
         try:
             if len(user.password) < 8:
                 raise ValueError("La contraseña debe tener al menos 8 caracteres")
@@ -16,4 +16,4 @@ def validate_user_data(func):
             raise HTTPException(status_code=400, detail=str(ve))
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
-    return wrapper
+    return create_user

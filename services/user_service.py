@@ -6,7 +6,7 @@ class UserService:
         self.user_repository = UserRepository(db_type)
     
     def create_user(self, user):
-        self.user_repository.create_user(user)
+        return self.user_repository.create_user(user)
     
     def get_all_users(self):
         return self.user_repository.get_all_users()
