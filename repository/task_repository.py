@@ -23,3 +23,18 @@ class TaskRepository():
         params = (user_id,)
         result = self.db.execute(query, params)
         return result
+    
+    def update_task(self, task_id, task_data):
+        query_parts = []
+        params = []
+        for key, value in task_data.items():
+            query_parts.append(f"{key} = %s")
+            params.append(value)
+        params.append(task_id) 
+        query = f"UPDATE tasks SET {', '.join(query_parts)} WHERE id = %s"
+        self.db.execute(query, params)
+    
+    def delete_task(self, task_id):
+        query = "DELETE FROM tasks WHERE id = %s"
+        params = (task_id,)
+        self.db.execute(query, params)

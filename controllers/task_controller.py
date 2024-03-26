@@ -21,3 +21,11 @@ class TaskController:
         user = self.user_service.get_user_by_id(user_id)
         response_model = json_response( "Successful", True, body= tasks_by_user_response(user, tasks))
         return JSONResponse(status_code=status.HTTP_200_OK, content=response_model.model_dump())
+
+    def update_task(self, task_id, task_data):
+        self.task_service.update_task(task_id,task_data)
+        return JSONResponse(status_code=status.HTTP_200_OK, content=json_response( "Task updated correctly").model_dump())
+    
+    def delete_task(self, task_id):
+        self.task_service.delete_task(task_id)
+        return JSONResponse(status_code=status.HTTP_200_OK, content=json_response( "Task deleted currectly").model_dump())
