@@ -4,7 +4,7 @@ from typing import Optional, List
 from models.user_model import UserResponse
 
 class TaskModel(BaseModel):
-    _id :           Optional[str] = None
+    id :            Optional[str] = ""
     title:          str = Field(min_length=3, max_length= 50)
     description:    Optional[str] = Field(min_length=3, max_length= 150)
     status:         Optional[str]= None

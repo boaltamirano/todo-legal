@@ -9,7 +9,6 @@ database = 'postgres'
 user_controller = UserController(database)
 
 @router.post('/users',tags=['Users'])
-@validate_user_data
 def create_user(user: UserModel):
     response = user_controller.create_user(user.model_dump())
     return response
@@ -19,15 +18,15 @@ def get_all_users():
     return user_controller.get_all_users()
 
 @router.get("/users/{user_id}",tags=['Users'], dependencies=[Depends(AuthMiddleware(database))])
-def get_user_by_id(user_id):
+def get_user_by_id(user_id:str):
     return user_controller.get_user_by_id(user_id)
 
 @router.put("/users/{user_id}", tags=['Users'], dependencies=[Depends(AuthMiddleware(database))])
-def update_user(user_id, user_payload: dict):
+def update_user(user_id: str, user_payload: dict):
     response = user_controller.update_user(user_id, user_payload)
     return response
 
 @router.delete("/users/{user_id}", tags=['Users'], dependencies=[Depends(AuthMiddleware(database))])
-def delete_user(user_id):
+def delete_user(user_id:str):
     response = user_controller.delete_user(user_id)
     return response

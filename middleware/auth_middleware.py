@@ -24,8 +24,7 @@ class AuthMiddleware(HTTPBearer):
                 return response
         except (jwt.exceptions.DecodeError, KeyError):
             pass
-
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail= json_response( "Invalid or missing token",401).dict(),
+            detail=json_response( "Invalid or missing token",False).model_dump(),
         )

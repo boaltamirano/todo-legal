@@ -8,12 +8,19 @@ class UserRepository:
         self.db = get_db_instance(db_type)
         
     def create_user(self, user):
-        user_id = str(uuid.uuid4()).replace('-', '')
-        hashed_password = hash_password(user['password'])
-        query = "INSERT INTO users (id, name, email, password, phone, address) VALUES (%s, %s, %s, %s, %s, %s)"
-        params = (user_id, user['name'], user['email'], hashed_password, user['phone'], user['address'])
+        user["id"]= str(uuid.uuid4()).replace('-', '')
+        user['password'] = hash_password(user['password'])
+        query_parts = []
+        values = []
+        params = []
+        for key, value in user.items():
+            if value != None:
+                query_parts.append(f"{key}")
+                values.append("%s")
+                params.append(value)
+        query = f"INSERT INTO users ({', '.join(query_parts)}) VALUES ({', '.join(values)})"
         self.db.execute(query, params)
-        return user_id
+        return user["id"]
         
     def get_all_users(self):
         query = "SELECT * FROM users"
@@ -24,7 +31,7 @@ class UserRepository:
         query = "SELECT * FROM users WHERE id = %s"
         params = (user_id,)
         result = self.db.execute(query, params)
-        return result[0]
+        return result
     
     def update_user(self, user_id, user_data):
         query_parts = []

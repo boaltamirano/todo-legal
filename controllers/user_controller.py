@@ -11,7 +11,7 @@ class UserController:
     def create_user(self, user):
         user_id = self.user_service.create_user(user)
         user = self.user_service.get_user_by_id(user_id)
-        response_model = json_response( "User successfully registered", True, body= user_token_response(user))
+        response_model = json_response( "User successfully registered", True, body= user_token_response(user[0]))
         return JSONResponse(status_code=status.HTTP_201_CREATED,content=response_model.model_dump())
     
     def get_all_users(self):
@@ -24,12 +24,18 @@ class UserController:
         user = self.user_service.get_user_by_id(user_id)
         if not user:
             return JSONResponse(status_code=status.HTTP_200_OK, content=json_response( "User not found", False).model_dump())    
-        return JSONResponse(status_code=status.HTTP_200_OK, content=json_response( "Successful", True, body= user_response(user).model_dump()).model_dump())
+        return JSONResponse(status_code=status.HTTP_200_OK, content=json_response( "Successful", True, body= user_response(user[0]).model_dump()).model_dump())
     
     def update_user(self, user_id, user_data):
+        user = self.user_service.get_user_by_id(user_id)
+        if not user:
+            return JSONResponse(status_code=status.HTTP_200_OK, content=json_response( "User not found", False).model_dump())
         self.user_service.update_user(user_id, user_data)
         return JSONResponse(status_code=status.HTTP_200_OK, content=json_response( "User updated correctly").model_dump())
     
     def delete_user(self, user_id):
+        user = self.user_service.get_user_by_id(user_id)
+        if not user:
+            return JSONResponse(status_code=status.HTTP_200_OK, content=json_response( "User not found", False).model_dump())
         self.user_service.delete_user(user_id)
         return JSONResponse(status_code=status.HTTP_200_OK, content=json_response( "User deleted currectly").model_dump())

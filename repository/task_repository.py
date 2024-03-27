@@ -6,9 +6,16 @@ class TaskRepository():
         self.db = get_db_instance(db_type)
         
     def create_task(self, task):
-        task_id = str(uuid.uuid4()).replace('-', '')
-        query = "INSERT INTO tasks (id, title, description, status, deadline, user_id) VALUES (%s, %s, %s, %s, %s, %s)"
-        params = (task_id, task['title'], task['description'], task['status'], task['deadline'], task['user_id'])
+        task["id"] = str(uuid.uuid4()).replace('-', '')
+        query_parts = []
+        values = []
+        params = []
+        for key, value in user.items():
+            if value != None:
+                query_parts.append(f"{key}")
+                values.append("%s")
+                params.append(value)
+        query = f"INSERT INTO users ({', '.join(query_parts)}) VALUES ({', '.join(values)})"
         self.db.execute(query, params)
         return task_id
 
@@ -16,7 +23,7 @@ class TaskRepository():
         query = "SELECT * FROM tasks WHERE id = %s"
         params = (task_id,)
         result = self.db.execute(query, params)
-        return result[0]
+        return result
 
     def get_tasks_by_user_id(self, user_id):
         query = "SELECT * FROM tasks WHERE user_id = %s"
