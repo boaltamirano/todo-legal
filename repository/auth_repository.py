@@ -9,4 +9,4 @@ class AuthRepository:
         query = "SELECT * FROM users WHERE email = %s"
         params = (auth["email"],)
         user = self.db.execute(query, params)
-        return user[0]
+        return user

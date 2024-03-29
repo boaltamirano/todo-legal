@@ -1,6 +1,5 @@
 from fastapi import APIRouter
 from controllers.auth_controller import AuthController
-from utils.user_validate import validate_user_data
 from models.auth_model import AuthModel
 
 router = APIRouter()

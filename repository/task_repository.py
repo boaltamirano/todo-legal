@@ -25,9 +25,12 @@ class TaskRepository():
         result = self.db.execute(query, params)
         return result
 
-    def get_tasks_by_user_id(self, user_id):
+    def get_tasks_by_user_id(self, user_id, start_date, end_date):
         query = "SELECT * FROM tasks WHERE user_id = %s"
         params = (user_id,)
+        if start_date is not None and end_date is not None:
+            query += "AND created_at >= %s AND created_at <= %s"
+            params= (user_id, start_date, end_date, )
         result = self.db.execute(query, params)
         return result
     

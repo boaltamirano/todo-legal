@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends
 from controllers.user_controller import UserController
-from utils.user_validate import validate_user_data
 from models.user_model import UserModel
 from middleware.auth_middleware import AuthMiddleware
 

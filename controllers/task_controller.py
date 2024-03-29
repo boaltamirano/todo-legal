@@ -19,13 +19,12 @@ class TaskController:
         response_model = json_response( "Task successfully registered", True, body= task_response(task[0]).model_dump())
         return JSONResponse(status_code=status.HTTP_201_CREATED,content=response_model.model_dump())
 
-    def get_tasks_by_user_id(self, user_id):
+    def get_tasks_by_user_id(self, user_id, start_date, end_date):
         user = self.user_service.get_user_by_id(user_id)
         if not user:
             return JSONResponse(status_code=status.HTTP_200_OK, content=json_response( "User not exist", False).model_dump())
-        tasks = self.task_service.get_tasks_by_user_id(user_id)
-        user = self.user_service.get_user_by_id(user_id)
-        response_model = json_response( "Successful", True, body= tasks_by_user_response(user, tasks))
+        tasks = self.task_service.get_tasks_by_user_id(user_id, start_date, end_date)
+        response_model = json_response( "Successful", True, body= tasks_by_user_response(user[0], tasks))
         return JSONResponse(status_code=status.HTTP_200_OK, content=response_model.model_dump())
 
     def update_task(self, task_id, task_data):
