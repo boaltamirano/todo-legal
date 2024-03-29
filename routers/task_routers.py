@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from typing import Optional
+from typing import Optional, List
 from controllers.task_controller import TaskController
 from models.task_model import TaskModel
 from middleware.auth_middleware import AuthMiddleware
@@ -11,6 +11,11 @@ task_controller = TaskController(database)
 @router.post('/tasks',tags=['Tasks'], dependencies=[Depends(AuthMiddleware(database))])
 def create_task(task: TaskModel):
     response = task_controller.create_task(task.model_dump())
+    return response
+
+@router.post('/tasks/{user_id}',tags=['Tasks'], dependencies=[Depends(AuthMiddleware(database))])
+def mass_tasks_creation(user_id: str,tasks: List[TaskModel]):
+    response = task_controller.mass_tasks_creation(user_id, tasks)
     return response
 
 @router.get("/tasks/{user_id}",tags=['Tasks'], dependencies=[Depends(AuthMiddleware(database))])

@@ -9,7 +9,7 @@ class TaskModel(BaseModel):
     description:    Optional[str] = Field(min_length=3, max_length= 150)
     status:         Optional[str]= None
     deadline:       Optional[int] = None
-    user_id:        str = Field(min_length=32, max_length= 32)
+    user_id:        str = Field("11111111111111111111111111111111", min_length=32, max_length= 32)
 
 class TaskResponse(BaseModel):
     id :            str

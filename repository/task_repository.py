@@ -10,14 +10,25 @@ class TaskRepository():
         query_parts = []
         values = []
         params = []
-        for key, value in user.items():
+        for key, value in task.items():
             if value != None:
                 query_parts.append(f"{key}")
                 values.append("%s")
                 params.append(value)
-        query = f"INSERT INTO users ({', '.join(query_parts)}) VALUES ({', '.join(values)})"
+        query = f"INSERT INTO tasks ({', '.join(query_parts)}) VALUES ({', '.join(values)})"
         self.db.execute(query, params)
-        return task_id
+        return task["id"] 
+
+    
+    def mass_tasks_creation(self,user_id,tasks):
+        data_tasks=[]
+        for task in tasks:
+            task = task.model_dump()
+            task["user_id"] = user_id
+            task_id = self.create_task(task)
+            data = self.get_task_by_id(task_id)
+            data_tasks.append(data[0])
+        return data_tasks
 
     def get_task_by_id(self, task_id):
         query = "SELECT * FROM tasks WHERE id = %s"

@@ -8,6 +8,9 @@ class TaskService:
     def create_task(self, task):
         return self.task_repository.create_task(task)
 
+    def mass_tasks_creation(self, user_id, tasks):
+        return self.task_repository.mass_tasks_creation(user_id, tasks)
+
     def get_task_by_id(self, task_id):
         return self.task_repository.get_task_by_id(task_id)
 
