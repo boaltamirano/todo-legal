@@ -8,7 +8,7 @@ class UserModel(BaseModel):
     email_pattern:  ClassVar[str] = r'^[\w\.-]+@[\w\.-]+\.\w+$'
     email:          constr(min_length=3, max_length=320)
     password:       str = Field(min_length=8, max_length= 16)
-    phone:          Optional[str] = Field(None, min_length=10, max_length= 10)
+    phone:          Optional[str] = None
     address:        Optional[str] = Field(None, min_length=3, max_length= 50)
 
     @validator("email")
